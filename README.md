@@ -4,17 +4,17 @@ A Capacitor plugin for motion/magnetometer calibration using native C libraries.
 
 ## Installation
 
-Install directly from GitHub (capacitor branch):
+Install directly from GitHub:
 
 ```bash
-npm install github:denizak/Cordova-MotionCal#capacitor
+npm install github:denizak/motioncal-capacitor
 npx cap sync
 ```
 
 Or clone and install locally:
 
 ```bash
-git clone -b capacitor https://github.com/denizak/Cordova-MotionCal.git capacitor-motioncal
+git clone https://github.com/denizak/motioncal-capacitor.git capacitor-motioncal
 npm install ./capacitor-motioncal
 npx cap sync
 ```
@@ -123,9 +123,4 @@ await MotionCalibration.resetRawData();
 | `getGeomagneticFieldMagnitude` | - | `Promise<{ magnitude: number }>` |
 | `clearDrawPoints` | - | `Promise<void>` |
 
-## Branch Structure
 
-This repository contains both Cordova and Capacitor versions:
-
-- **`main` branch**: Cordova plugin (in `MotionCalCordova/`)
-- **`capacitor` branch**: Capacitor plugin (at root level)
