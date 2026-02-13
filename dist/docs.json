@@ -1,0 +1,292 @@
+{
+  "api": {
+    "name": "MotionCalibrationPlugin",
+    "slug": "motioncalibrationplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "updateBValue",
+        "signature": "(options: { value: number; }) => Promise<void>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "- Object containing the value to set",
+            "type": "{ value: number; }"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "param",
+            "text": "options - Object containing the value to set"
+          }
+        ],
+        "docs": "Update the B (magnetic field magnitude) value",
+        "complexTypes": [],
+        "slug": "updatebvalue"
+      },
+      {
+        "name": "getBValue",
+        "signature": "() => Promise<{ value: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ value: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the B value"
+          }
+        ],
+        "docs": "Get the current B value",
+        "complexTypes": [],
+        "slug": "getbvalue"
+      },
+      {
+        "name": "isSendCalAvailable",
+        "signature": "() => Promise<{ available: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ available: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing availability status (0 or 1)"
+          }
+        ],
+        "docs": "Check if send calibration is available",
+        "complexTypes": [],
+        "slug": "issendcalavailable"
+      },
+      {
+        "name": "readDataFromFile",
+        "signature": "(options: { filename: string; }) => Promise<{ result: number; }>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "- Object containing the filename",
+            "type": "{ filename: string; }"
+          }
+        ],
+        "returns": "Promise<{ result: number; }>",
+        "tags": [
+          {
+            "name": "param",
+            "text": "options - Object containing the filename"
+          },
+          {
+            "name": "returns",
+            "text": "Object containing the result code"
+          }
+        ],
+        "docs": "Read calibration data from a file",
+        "complexTypes": [],
+        "slug": "readdatafromfile"
+      },
+      {
+        "name": "setResultFilename",
+        "signature": "(options: { filename: string; }) => Promise<void>",
+        "parameters": [
+          {
+            "name": "options",
+            "docs": "- Object containing the filename",
+            "type": "{ filename: string; }"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "param",
+            "text": "options - Object containing the filename"
+          }
+        ],
+        "docs": "Set the filename for writing calibration results",
+        "complexTypes": [],
+        "slug": "setresultfilename"
+      },
+      {
+        "name": "sendCalibration",
+        "signature": "() => Promise<{ result: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ result: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the result code"
+          }
+        ],
+        "docs": "Send the calibration data",
+        "complexTypes": [],
+        "slug": "sendcalibration"
+      },
+      {
+        "name": "getQualitySurfaceGapError",
+        "signature": "() => Promise<{ error: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ error: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the error value"
+          }
+        ],
+        "docs": "Get the quality surface gap error metric",
+        "complexTypes": [],
+        "slug": "getqualitysurfacegaperror"
+      },
+      {
+        "name": "getQualityMagnitudeVarianceError",
+        "signature": "() => Promise<{ error: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ error: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the error value"
+          }
+        ],
+        "docs": "Get the quality magnitude variance error metric",
+        "complexTypes": [],
+        "slug": "getqualitymagnitudevarianceerror"
+      },
+      {
+        "name": "getQualityWobbleError",
+        "signature": "() => Promise<{ error: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ error: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the error value"
+          }
+        ],
+        "docs": "Get the quality wobble error metric",
+        "complexTypes": [],
+        "slug": "getqualitywobbleerror"
+      },
+      {
+        "name": "getQualitySphericalFitError",
+        "signature": "() => Promise<{ error: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ error: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the error value"
+          }
+        ],
+        "docs": "Get the quality spherical fit error metric",
+        "complexTypes": [],
+        "slug": "getqualitysphericalfiterror"
+      },
+      {
+        "name": "displayCallback",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "Trigger the display callback",
+        "complexTypes": [],
+        "slug": "displaycallback"
+      },
+      {
+        "name": "getCalibrationData",
+        "signature": "() => Promise<{ data: string; }>",
+        "parameters": [],
+        "returns": "Promise<{ data: string; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the base64 encoded calibration data"
+          }
+        ],
+        "docs": "Get the calibration data as a base64 encoded string",
+        "complexTypes": [],
+        "slug": "getcalibrationdata"
+      },
+      {
+        "name": "getDrawPoints",
+        "signature": "() => Promise<{ points: number[][]; }>",
+        "parameters": [],
+        "returns": "Promise<{ points: number[][]; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the 2D array of points"
+          }
+        ],
+        "docs": "Get the draw points for visualization",
+        "complexTypes": [],
+        "slug": "getdrawpoints"
+      },
+      {
+        "name": "resetRawData",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "Reset the raw calibration data",
+        "complexTypes": [],
+        "slug": "resetrawdata"
+      },
+      {
+        "name": "getHardIronOffset",
+        "signature": "() => Promise<{ offset: number[]; }>",
+        "parameters": [],
+        "returns": "Promise<{ offset: number[]; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the offset array"
+          }
+        ],
+        "docs": "Get the hard iron offset values [x, y, z]",
+        "complexTypes": [],
+        "slug": "gethardironoffset"
+      },
+      {
+        "name": "getSoftIronMatrix",
+        "signature": "() => Promise<{ matrix: number[][]; }>",
+        "parameters": [],
+        "returns": "Promise<{ matrix: number[][]; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the 3x3 matrix"
+          }
+        ],
+        "docs": "Get the soft iron matrix (3x3)",
+        "complexTypes": [],
+        "slug": "getsoftironmatrix"
+      },
+      {
+        "name": "getGeomagneticFieldMagnitude",
+        "signature": "() => Promise<{ magnitude: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ magnitude: number; }>",
+        "tags": [
+          {
+            "name": "returns",
+            "text": "Object containing the magnitude value"
+          }
+        ],
+        "docs": "Get the geomagnetic field magnitude",
+        "complexTypes": [],
+        "slug": "getgeomagneticfieldmagnitude"
+      },
+      {
+        "name": "clearDrawPoints",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "Clear the draw points data",
+        "complexTypes": [],
+        "slug": "cleardrawpoints"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [],
+  "enums": [],
+  "typeAliases": [],
+  "pluginConfigs": []
+}

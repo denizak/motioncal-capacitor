@@ -2,7 +2,9 @@
 node_modules/
 
 # Build output
-dist/
+# Note: dist/ is included in package.json files and must be committed
+# for npm install from GitHub to work correctly
+# dist/
 
 # IDE
 .idea/
