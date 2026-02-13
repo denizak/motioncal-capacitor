@@ -36,7 +36,7 @@ public class MotionCalibrationPlugin: CAPPlugin, CAPBridgedPlugin {
             call.reject("Value is required")
             return
         }
-        updateBValue(value)
+        motioncal.B = value * 2
         call.resolve()
     }
     
@@ -168,23 +168,23 @@ public class MotionCalibrationPlugin: CAPPlugin, CAPBridgedPlugin {
     }
     
     @objc func getSoftIronMatrix(_ call: CAPPluginCall) {
-        var invW: [[Float]] = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-        // Create a contiguous block for C compatibility
-        var flatMatrix: [Float] = Array(repeating: 0, count: 9)
-        flatMatrix.withUnsafeMutableBufferPointer { buffer in
-            var rows: [UnsafeMutablePointer<Float>?] = [
-                buffer.baseAddress,
-                buffer.baseAddress?.advanced(by: 3),
-                buffer.baseAddress?.advanced(by: 6)
-            ]
-            rows.withUnsafeMutableBufferPointer { rowsBuffer in
-                get_soft_iron_matrix(rowsBuffer.baseAddress!)
+        // C expects float[3][3], which Swift imports as pointer to tuple (Float, Float, Float)
+        var matrix: ((Float, Float, Float), (Float, Float, Float), (Float, Float, Float)) = (
+            (0, 0, 0),
+            (0, 0, 0),
+            (0, 0, 0)
+        )
+        withUnsafeMutablePointer(to: &matrix) { ptr in
+            ptr.withMemoryRebound(to: (Float, Float, Float).self, capacity: 3) { rowPtr in
+                get_soft_iron_matrix(rowPtr)
             }
         }
-        // Convert flat array to 2D
-        invW[0] = Array(flatMatrix[0..<3])
-        invW[1] = Array(flatMatrix[3..<6])
-        invW[2] = Array(flatMatrix[6..<9])
+        // Convert tuple to 2D array for JSON response
+        let invW: [[Float]] = [
+            [matrix.0.0, matrix.0.1, matrix.0.2],
+            [matrix.1.0, matrix.1.1, matrix.1.2],
+            [matrix.2.0, matrix.2.1, matrix.2.2]
+        ]
         call.resolve(["matrix": invW])
     }
     
