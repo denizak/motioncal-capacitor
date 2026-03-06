@@ -18,6 +18,11 @@ Pod::Spec.new do |s|
   
   s.pod_target_xcconfig = {
     'HEADER_SEARCH_PATHS' => '"${PODS_TARGET_SRCROOT}/common"',
-    'SWIFT_OBJC_BRIDGING_HEADER' => '${PODS_TARGET_SRCROOT}/ios/Sources/MotionCalibrationPlugin/MotionCalibration-Bridging-Header.h'
+    'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/common',
+    'DEFINES_MODULE' => 'YES'
+  }
+  
+  s.xcconfig = { 
+    'SWIFT_INCLUDE_PATHS' => '$(PODS_TARGET_SRCROOT)/common' 
   }
 end
