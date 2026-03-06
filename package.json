@@ -1,6 +1,6 @@
 {
   "name": "capacitor-motioncal",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Capacitor plugin for motion calibration using magnetometer data",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
