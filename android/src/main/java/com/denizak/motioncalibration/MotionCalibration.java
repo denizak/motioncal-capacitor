@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 @CapacitorPlugin(name = "MotionCalibration")
-public class MotionCalibrationPlugin extends Plugin {
+public class MotionCalibration extends Plugin {
 
     // Load the native library
     static {
