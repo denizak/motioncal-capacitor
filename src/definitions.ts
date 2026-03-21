@@ -1,34 +1,21 @@
 export interface MotionCalibrationPlugin {
   /**
-   * Update the B (magnetic field magnitude) value
-   * @param options - Object containing the value to set
-   */
-  updateBValue(options: { value: number }): Promise<void>;
-
-  /**
-   * Get the current B value
-   * @returns Object containing the B value
-   */
-  getBValue(): Promise<{ value: number }>;
-
-  /**
    * Check if send calibration is available
    * @returns Object containing availability status (0 or 1)
    */
   isSendCalAvailable(): Promise<{ available: number }>;
 
   /**
-   * Read calibration data from a file
-   * @param options - Object containing the filename
-   * @returns Object containing the result code
+   * Pass raw sensor data directly to the calibration engine.
+   * Replaces the serial port data feed from the upstream MotionCal desktop app.
+   * @param options - Object containing an array of 9 int16 values:
+   *   [accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z, mag_x, mag_y, mag_z]
+   *   Conversion factors (from imuread.h):
+   *   - Accel: multiply g values by 8192 (G_PER_COUNT = 1/8192)
+   *   - Gyro: multiply deg/s values by 16 (DEG_PER_SEC_PER_COUNT = 1/16)
+   *   - Mag: multiply µT values by 10 (UT_PER_COUNT = 0.1)
    */
-  readDataFromFile(options: { filename: string }): Promise<{ result: number }>;
-
-  /**
-   * Set the filename for writing calibration results
-   * @param options - Object containing the filename
-   */
-  setResultFilename(options: { filename: string }): Promise<void>;
+  rawData(options: { data: number[] }): Promise<void>;
 
   /**
    * Send the calibration data

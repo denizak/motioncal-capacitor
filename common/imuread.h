@@ -38,21 +38,14 @@ typedef struct {
 } Quaternion_t;
 extern Quaternion_t current_orientation;
 
-extern int port_is_open(void);
-extern int open_port(const char *name);
-extern int read_serial_data(void);
-extern int write_serial_data(const void *ptr, int len);
-extern void close_port(void);
 void raw_data_reset(void);
 void cal1_data(const float *data);
 void cal2_data(const float *data);
 void calibration_confirmed(void);
 void raw_data(const int16_t *data);
 extern int send_calibration(void);
-void visualize_init(void);
 void apply_calibration(int16_t rawx, int16_t rawy, int16_t rawz, Point_t *out);
 extern void display_callback(void);
-void resize_callback(int width, int height);
 int MagCal_Run(void);
 void quality_reset(void);
 void quality_update(const Point_t *point);
@@ -61,17 +54,10 @@ extern float quality_magnitude_variance_error(void);
 extern float quality_wobble_error(void);
 extern float quality_spherical_fit_error(void);
 extern short is_send_cal_available(void);
-extern void set_result_filename(const char *filename);
-
-// PhiEs start ==
-extern void clear_file(const char *filename);
-extern int read_ipc_file_data(const char *filename);
-extern int write_ipc_file_data(const void *ptr, int len);
 extern const uint8_t* get_calibration_data(void);
 extern float* get_draw_points(void);
 extern int get_draw_points_count(void);
-extern void clear_draw_points(void); // <-- Added function declaration here
-// PhiEs end ======
+extern void clear_draw_points(void);
 
 // Expose MagCalibration_t properties
 extern void get_hard_iron_offset(float V[3]);

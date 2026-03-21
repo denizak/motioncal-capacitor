@@ -1,7 +1,5 @@
 #include "imuread.h"
 
-extern float draw_points[MAGBUFFSIZE * 3];
-
 static int rawcount=OVERSAMPLE_RATIO;
 static AccelSensor_t accel;
 static MagSensor_t   mag;
@@ -149,8 +147,7 @@ void cal1_data(const float *data)
 		if (ok) {
 			cal_confirm_needed &= ~1; // got cal1 confirm
 			if (cal_confirm_needed == 0) {
-                // TODO: remove this
-//				calibration_confirmed();
+				calibration_confirmed();
 			}
 		}
 	}
@@ -168,8 +165,7 @@ void cal2_data(const float *data)
 		if (ok) {
 			cal_confirm_needed &= ~2; // got cal2 confirm
 			if (cal_confirm_needed == 0) {
-                // TODO: remove this
-//				calibration_confirmed();
+				calibration_confirmed();
 			}
 		}
 	}
@@ -326,11 +322,7 @@ int send_calibration(void)
 	cal_data_sent[16] = magcal.invW[2][0];
 	cal_data_sent[17] = magcal.invW[2][1];
 	cal_data_sent[18] = magcal.invW[2][2];
-	// PhiEs: update on 17/02/2025 at
-	// Change cal_confirm_needed = 2 to adjust data resend from 
-	// cal_confirm_needed = 3;
 	cal_confirm_needed = 3;
-	// PhiEs: end
 	crc = 0xFFFF;
 	for (i=0; i < 66; i++) {
 		crc = crc16(crc, buf[i]);
@@ -340,10 +332,15 @@ int send_calibration(void)
 
 	memcpy(data_result, buf, 68);
 
-	return write_ipc_file_data(buf, 68);
+	return 1;
 }
 
 const uint8_t* get_calibration_data(void)
 {
     return data_result;
+}
+
+void calibration_confirmed(void)
+{
+	// No-op on mobile: the plugin layer polls calibration state directly.
 }

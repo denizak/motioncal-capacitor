@@ -6,11 +6,8 @@ public class MotionCalibrationPlugin: CAPPlugin, CAPBridgedPlugin {
     public let identifier = "MotionCalibrationPlugin"
     public let jsName = "MotionCalibration"
     public let pluginMethods: [CAPPluginMethod] = [
-        CAPPluginMethod(name: "updateBValue", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "getBValue", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "isSendCalAvailable", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "readDataFromFile", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "setResultFilename", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "rawData", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "sendCalibration", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getQualitySurfaceGapError", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "getQualityMagnitudeVarianceError", returnType: CAPPluginReturnPromise),
@@ -26,53 +23,20 @@ public class MotionCalibrationPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "clearDrawPoints", returnType: CAPPluginReturnPromise)
     ]
     
-    public override func load() {
-        // Initialize the C struct if needed
-        motioncal.B = 0.0
-    }
-    
-    @objc func updateBValue(_ call: CAPPluginCall) {
-        guard let value = call.getFloat("value") else {
-            call.reject("Value is required")
-            return
-        }
-        motioncal.B = value * 2
-        call.resolve()
-    }
-    
-    @objc func getBValue(_ call: CAPPluginCall) {
-        let bValue = motioncal.B
-        call.resolve(["value": bValue])
-    }
-    
     @objc func isSendCalAvailable(_ call: CAPPluginCall) {
         let available = is_send_cal_available()
         call.resolve(["available": Int(available)])
     }
     
-    @objc func readDataFromFile(_ call: CAPPluginCall) {
-        guard let filename = call.getString("filename") else {
-            call.reject("Filename is required")
+    @objc func rawData(_ call: CAPPluginCall) {
+        guard let dataArray = call.getArray("data") as? [NSNumber], dataArray.count == 9 else {
+            call.reject("Expected array of 9 numbers")
             return
         }
-        
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let fullPath = (documentsPath as NSString).appendingPathComponent(filename)
-        
-        let result = read_ipc_file_data(fullPath)
-        call.resolve(["result": Int(result)])
-    }
-    
-    @objc func setResultFilename(_ call: CAPPluginCall) {
-        guard let filename = call.getString("filename") else {
-            call.reject("Filename is required")
-            return
+        var rawValues = dataArray.map { Int16(clamping: $0.intValue) }
+        rawValues.withUnsafeMutableBufferPointer { ptr in
+            raw_data(ptr.baseAddress!)
         }
-        
-        let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-        let fullPath = (documentsPath as NSString).appendingPathComponent(filename)
-        
-        set_result_filename(fullPath)
         call.resolve()
     }
     

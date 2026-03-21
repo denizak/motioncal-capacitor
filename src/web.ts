@@ -3,23 +3,11 @@ import { WebPlugin } from '@capacitor/core';
 import type { MotionCalibrationPlugin } from './definitions';
 
 export class MotionCalibrationWeb extends WebPlugin implements MotionCalibrationPlugin {
-  async updateBValue(_options: { value: number }): Promise<void> {
-    throw this.unimplemented('Not implemented on web.');
-  }
-
-  async getBValue(): Promise<{ value: number }> {
-    throw this.unimplemented('Not implemented on web.');
-  }
-
   async isSendCalAvailable(): Promise<{ available: number }> {
     throw this.unimplemented('Not implemented on web.');
   }
 
-  async readDataFromFile(_options: { filename: string }): Promise<{ result: number }> {
-    throw this.unimplemented('Not implemented on web.');
-  }
-
-  async setResultFilename(_options: { filename: string }): Promise<void> {
+  async rawData(_options: { data: number[] }): Promise<void> {
     throw this.unimplemented('Not implemented on web.');
   }
 

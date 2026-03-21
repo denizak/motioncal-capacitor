@@ -7,19 +7,10 @@ const MotionCalibration = core.registerPlugin('MotionCalibration', {
 });
 
 class MotionCalibrationWeb extends core.WebPlugin {
-    async updateBValue(_options) {
-        throw this.unimplemented('Not implemented on web.');
-    }
-    async getBValue() {
-        throw this.unimplemented('Not implemented on web.');
-    }
     async isSendCalAvailable() {
         throw this.unimplemented('Not implemented on web.');
     }
-    async readDataFromFile(_options) {
-        throw this.unimplemented('Not implemented on web.');
-    }
-    async setResultFilename(_options) {
+    async rawData(_options) {
         throw this.unimplemented('Not implemented on web.');
     }
     async sendCalibration() {

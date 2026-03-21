@@ -6,42 +6,6 @@
     "tags": [],
     "methods": [
       {
-        "name": "updateBValue",
-        "signature": "(options: { value: number; }) => Promise<void>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "- Object containing the value to set",
-            "type": "{ value: number; }"
-          }
-        ],
-        "returns": "Promise<void>",
-        "tags": [
-          {
-            "name": "param",
-            "text": "options - Object containing the value to set"
-          }
-        ],
-        "docs": "Update the B (magnetic field magnitude) value",
-        "complexTypes": [],
-        "slug": "updatebvalue"
-      },
-      {
-        "name": "getBValue",
-        "signature": "() => Promise<{ value: number; }>",
-        "parameters": [],
-        "returns": "Promise<{ value: number; }>",
-        "tags": [
-          {
-            "name": "returns",
-            "text": "Object containing the B value"
-          }
-        ],
-        "docs": "Get the current B value",
-        "complexTypes": [],
-        "slug": "getbvalue"
-      },
-      {
         "name": "isSendCalAvailable",
         "signature": "() => Promise<{ available: number; }>",
         "parameters": [],
@@ -57,50 +21,25 @@
         "slug": "issendcalavailable"
       },
       {
-        "name": "readDataFromFile",
-        "signature": "(options: { filename: string; }) => Promise<{ result: number; }>",
+        "name": "rawData",
+        "signature": "(options: { data: number[]; }) => Promise<void>",
         "parameters": [
           {
             "name": "options",
-            "docs": "- Object containing the filename",
-            "type": "{ filename: string; }"
-          }
-        ],
-        "returns": "Promise<{ result: number; }>",
-        "tags": [
-          {
-            "name": "param",
-            "text": "options - Object containing the filename"
-          },
-          {
-            "name": "returns",
-            "text": "Object containing the result code"
-          }
-        ],
-        "docs": "Read calibration data from a file",
-        "complexTypes": [],
-        "slug": "readdatafromfile"
-      },
-      {
-        "name": "setResultFilename",
-        "signature": "(options: { filename: string; }) => Promise<void>",
-        "parameters": [
-          {
-            "name": "options",
-            "docs": "- Object containing the filename",
-            "type": "{ filename: string; }"
+            "docs": "- Object containing an array of 9 int16 values:\n[accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z, mag_x, mag_y, mag_z]\nConversion factors (from imuread.h):\n- Accel: multiply g values by 8192 (G_PER_COUNT = 1/8192)\n- Gyro: multiply deg/s values by 16 (DEG_PER_SEC_PER_COUNT = 1/16)\n- Mag: multiply µT values by 10 (UT_PER_COUNT = 0.1)",
+            "type": "{ data: number[]; }"
           }
         ],
         "returns": "Promise<void>",
         "tags": [
           {
             "name": "param",
-            "text": "options - Object containing the filename"
+            "text": "options - Object containing an array of 9 int16 values:\n[accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z, mag_x, mag_y, mag_z]\nConversion factors (from imuread.h):\n- Accel: multiply g values by 8192 (G_PER_COUNT = 1/8192)\n- Gyro: multiply deg/s values by 16 (DEG_PER_SEC_PER_COUNT = 1/16)\n- Mag: multiply µT values by 10 (UT_PER_COUNT = 0.1)"
           }
         ],
-        "docs": "Set the filename for writing calibration results",
+        "docs": "Pass raw sensor data directly to the calibration engine.\nReplaces the serial port data feed from the upstream MotionCal desktop app.",
         "complexTypes": [],
-        "slug": "setresultfilename"
+        "slug": "rawdata"
       },
       {
         "name": "sendCalibration",

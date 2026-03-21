@@ -1,22 +1,11 @@
 import { WebPlugin } from '@capacitor/core';
 import type { MotionCalibrationPlugin } from './definitions';
 export declare class MotionCalibrationWeb extends WebPlugin implements MotionCalibrationPlugin {
-    updateBValue(_options: {
-        value: number;
-    }): Promise<void>;
-    getBValue(): Promise<{
-        value: number;
-    }>;
     isSendCalAvailable(): Promise<{
         available: number;
     }>;
-    readDataFromFile(_options: {
-        filename: string;
-    }): Promise<{
-        result: number;
-    }>;
-    setResultFilename(_options: {
-        filename: string;
+    rawData(_options: {
+        data: number[];
     }): Promise<void>;
     sendCalibration(): Promise<{
         result: number;

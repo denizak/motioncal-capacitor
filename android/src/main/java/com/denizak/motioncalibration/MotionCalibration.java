@@ -21,11 +21,8 @@ public class MotionCalibration extends Plugin {
     }
 
     // Native method declarations
-    private native void updateBValueNative(float bValue);
-    private native float getBValueNative();
     private native short isSendCalAvailableNative();
-    private native int readDataFromFileNative(String filename);
-    private native void setResultFilenameNative(String filename);
+    private native void rawDataNative(short[] data);
     private native int sendCalibrationNative();
     private native float getQualitySurfaceGapErrorNative();
     private native float getQualityMagnitudeVarianceErrorNative();
@@ -41,25 +38,6 @@ public class MotionCalibration extends Plugin {
     private native void clearDrawPointsNative();
 
     @PluginMethod
-    public void updateBValue(PluginCall call) {
-        Float value = call.getFloat("value");
-        if (value == null) {
-            call.reject("Value is required");
-            return;
-        }
-        updateBValueNative(value);
-        call.resolve();
-    }
-
-    @PluginMethod
-    public void getBValue(PluginCall call) {
-        float result = getBValueNative();
-        JSObject ret = new JSObject();
-        ret.put("value", result);
-        call.resolve(ret);
-    }
-
-    @PluginMethod
     public void isSendCalAvailable(PluginCall call) {
         short isAvailable = isSendCalAvailableNative();
         JSObject ret = new JSObject();
@@ -68,29 +46,22 @@ public class MotionCalibration extends Plugin {
     }
 
     @PluginMethod
-    public void readDataFromFile(PluginCall call) {
-        String filename = call.getString("filename");
-        if (filename == null) {
-            call.reject("Filename is required");
+    public void rawData(PluginCall call) {
+        JSArray dataArray = call.getArray("data");
+        if (dataArray == null || dataArray.length() != 9) {
+            call.reject("Expected array of 9 numbers");
             return;
         }
-        String fullPath = getContext().getFilesDir().getAbsolutePath() + "/" + filename;
-        int result = readDataFromFileNative(fullPath);
-        JSObject ret = new JSObject();
-        ret.put("result", result);
-        call.resolve(ret);
-    }
-
-    @PluginMethod
-    public void setResultFilename(PluginCall call) {
-        String filename = call.getString("filename");
-        if (filename == null) {
-            call.reject("Filename is required");
-            return;
+        try {
+            short[] data = new short[9];
+            for (int i = 0; i < 9; i++) {
+                data[i] = (short) dataArray.getInt(i);
+            }
+            rawDataNative(data);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Failed to process raw data: " + e.getMessage());
         }
-        String fullPath = getContext().getFilesDir().getAbsolutePath() + "/" + filename;
-        setResultFilenameNative(fullPath);
-        call.resolve();
     }
 
     @PluginMethod
