@@ -2,6 +2,21 @@
 
 A Capacitor plugin for real-time magnetometer calibration using the Freescale/NXP MotionCal algorithm (ported from [PaulStoffregen/MotionCal](https://github.com/PaulStoffregen/MotionCal)). The plugin accepts raw IMU sensor readings and computes hard-iron offset, soft-iron matrix, and geomagnetic field magnitude — the three values needed to correct a magnetometer heading.
 
+## Main Branch Status (March 2026)
+
+Current `main` implementation includes:
+
+- Capacitor v7 plugin surface implemented on both Android and iOS.
+- Full native API for calibration readiness, quality metrics, finalization, calibration blob export, draw points, and reset/clear utilities.
+- JavaScript/web stub is present but throws `Not implemented on web.` for all methods.
+
+Behavior notes from native implementations:
+
+- `rawData` expects exactly 9 values and treats them as int16 counts.
+- Quality APIs sanitize `NaN` to `100` on native platforms.
+- `getCalibrationData` returns the native 68-byte calibration payload as base64.
+- `sendCalibration` is asynchronous; iOS also resets raw buffers immediately after finalization.
+
 ## How it works
 
 ```
@@ -22,6 +37,8 @@ The calibration engine accumulates magnetic field samples in a sphere-fitting bu
 ---
 
 ## Installation
+
+Supported runtime platforms: iOS and Android (native). Web is not implemented.
 
 ### From npm (after publish)
 
@@ -301,6 +318,14 @@ npm run verify:android
 ```
 
 Runs `./gradlew clean build test`. Requires the Android SDK in your `$PATH` / `$ANDROID_HOME`.
+
+### Optional — Run full verification script
+
+```bash
+npm run verify
+```
+
+Runs iOS, Android, and web/build verification in sequence.
 
 ### Step 5 — Smoke test on a real device
 

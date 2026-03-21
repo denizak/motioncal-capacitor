@@ -28,6 +28,8 @@ android/build/
 android/bin/
 android/.gradle/
 android/.project
+android/.classpath
+android/.settings/
 android/local.properties
 android/*.iml
 
