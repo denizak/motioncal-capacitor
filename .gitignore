@@ -25,7 +25,9 @@ ios/*.xcodeproj/project.xcworkspace/xcuserdata/
 
 # Android
 android/build/
+android/bin/
 android/.gradle/
+android/.project
 android/local.properties
 android/*.iml
 
