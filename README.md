@@ -4,9 +4,9 @@ A Capacitor plugin for real-time magnetometer calibration using the Freescale/NX
 
 ## Main Branch Status (March 2026)
 
-Current `main` implementation includes:
+This version includes:
 
-- Capacitor v7 plugin surface implemented on both Android and iOS.
+- Capacitor v8 plugin surface implemented on both Android and iOS.
 - Full native API for calibration readiness, quality metrics, finalization, calibration blob export, draw points, and reset/clear utilities.
 - JavaScript/web stub is present but throws `Not implemented on web.` for all methods.
 
@@ -35,6 +35,14 @@ Ionic app (sensor events)
 The calibration engine accumulates magnetic field samples in a sphere-fitting buffer. Once the sphere is well-covered (quality metrics below threshold), `isSendCalAvailable()` returns `1` and you can call `sendCalibration()` to lock in the result.
 
 ---
+
+## Requirements
+
+- Capacitor 8 (this release does not declare Capacitor 7 support).
+- Node.js 22+, Xcode 26+, iOS 15+, Android API 24+ / compile SDK 36.
+- Android Gradle Plugin 8.13+ and Gradle 8.14.3+ in the consuming app.
+- CocoaPods integration is supported. Swift Package Manager is not yet packaged.
+- Android native libraries include 16 KB page-size alignment.
 
 ## Installation
 
@@ -303,29 +311,29 @@ This installs the exact local build. You can iterate on the plugin and re-run `n
 
 ### Step 3 — Verify the iOS build compiles
 
-Back in the plugin directory:
+Run from a consuming Capacitor 8 app after syncing the plugin:
 
 ```bash
-npm run verify:ios
+xcodebuild -workspace ios/App/App.xcworkspace -scheme App \
+  -configuration Debug -sdk iphonesimulator \
+  -destination 'generic/platform=iOS Simulator' \
+  -derivedDataPath /tmp/motioncal-verify-ios CODE_SIGNING_ALLOWED=NO build
 ```
-
-This runs `pod install` + `xcodebuild` for the iOS target. Fix any Swift/C compile errors before proceeding.
 
 ### Step 4 — Verify the Android build compiles
 
-```bash
-npm run verify:android
-```
-
-Runs `./gradlew clean build test`. Requires the Android SDK in your `$PATH` / `$ANDROID_HOME`.
-
-### Optional — Run full verification script
+From the consuming app:
 
 ```bash
-npm run verify
+cd android
+./gradlew :app:assembleDebug
 ```
 
-Runs iOS, Android, and web/build verification in sequence.
+Use JDK 21 and configure `ANDROID_HOME`. These native checks require a consuming
+app: this repository does not include the standalone Xcode workspace or Gradle
+wrapper referenced by the legacy `verify:ios` / `verify:android` scripts.
+
+The Capacitor 8 migration build results are recorded in [VALIDATION.md](VALIDATION.md).
 
 ### Step 5 — Smoke test on a real device
 

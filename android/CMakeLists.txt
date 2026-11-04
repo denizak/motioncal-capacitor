@@ -26,4 +26,6 @@ target_include_directories(motioncalibration PRIVATE ../common)
 
 # Android system libraries
 find_library(log-lib log)
+# Match modern Android 16 KB page-size requirements (previously patched by SensaLink).
+target_link_options(motioncalibration PRIVATE "-Wl,-z,max-page-size=16384")
 target_link_libraries(motioncalibration ${log-lib} m)
